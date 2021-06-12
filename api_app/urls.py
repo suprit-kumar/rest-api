@@ -1,10 +1,13 @@
 from django.urls import path
-from api_app import views
-
+from api_app.views import *
 urlpatterns = [
     # path('', include('api_app.urls')),
-    path('', views.home, name='home'),
-    path('userdata/', views.post_data, name='post_data'),
-    path('userupdate/<id>', views.updateUser, name='updateUser'),
-    path('userdelete/<id>', views.deleteUser, name='deleteUser'),
+    path('', home, name='home'),
+    path('userdata/',post_data, name='post_data'),
+    path('userupdate/<id>', updateUser, name='updateUser'),
+    path('userdelete/<id>',deleteUser, name='deleteUser'),
+    path('allbooks/', get_book, name='allbooks'),
+    path('student/',StudentAPI.as_view()),
+    path('register/',RegisterUser.as_view()),
+
 ]
