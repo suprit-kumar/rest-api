@@ -9,5 +9,7 @@ urlpatterns = [
     path('allbooks/', get_book, name='allbooks'),
     path('student/',StudentAPI.as_view()),
     path('register/',RegisterUser.as_view()),
+    path('generic-students/',StudentGenereic.as_view()),
+    path('generic-students/<id>/',StudentGenericUpdateDelete.as_view()),
 
 ]

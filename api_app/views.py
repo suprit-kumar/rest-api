@@ -10,6 +10,10 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken  # Generate token manually
+
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -28,13 +32,19 @@ class RegisterUser(APIView):
 
         serializer.save()
         user = User.objects.get(username=serializer.data['username'])
-        token_obj,_= Token.objects.get_or_create(user=user)
-        return Response({'status': 200, "payload": serializer.data, 'token': str(token_obj), 'messgae': 'You Sent'})
-
+        # token_obj, _ = Token.objects.get_or_create(user=user)
+        refresh = RefreshToken.for_user(user)
+        # return Response({'status': 200, "payload": serializer.data, 'token': str(token_obj), 'messgae': 'You Sent'})
+        return Response({'status': 200, "payload": serializer.data, 'refresh': str(refresh),
+                         'access': str(refresh.access_token), 'messgae': 'You Sent'})
 
 
 class StudentAPI(APIView):
-    authentication_classes = [TokenAuthentication]
+    '''Used For Normal Token Authentication'''
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+    '''Used For JWT Token Authentication'''
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -135,4 +145,27 @@ def createLocally():
         models.User.objects.update(username=catgry)
     print('created')
 
+
 # createLocally()
+
+
+
+'''Django RestFramwork Generic Views'''
+from rest_framework import generics
+
+
+# ListCreateAPIView - GET Method
+# CreateAPIView - POST Method
+# UpdateAPIView - PUT Method
+# DestroyAPIView - DELETE Method
+
+class StudentGenereic(generics.ListCreateAPIView, generics.CreateAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class StudentGenericUpdateDelete(generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+    lookup_field = 'id'
+
