@@ -136,7 +136,7 @@ def get_book(request):
 
 
 def createLocally():
-    for i in range(1, 10):
+    for _ in range(1, 10):
         catgry = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
         # title = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
         # cat = models.Category.objects.create(category_name=catgry)

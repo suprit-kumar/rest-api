@@ -15,7 +15,7 @@ class User(models.Model):
         db_table = "user"
 
     def __unicode__(self):
-        return u'%s' % [self.user_id]
+        return f'{[self.user_id]}'
 
 
 class Category(models.Model):
@@ -26,7 +26,7 @@ class Category(models.Model):
         db_table = "category"
 
     def __unicode__(self):
-        return u'%s' % [self.id]
+        return f'{[self.id]}'
 
 
 class Book(models.Model):
@@ -38,7 +38,7 @@ class Book(models.Model):
         db_table = "book"
 
     def __unicode__(self):
-        return u'%s' % [self.id]
+        return f'{[self.id]}'
 
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
@@ -50,4 +50,4 @@ class Student(models.Model):
         db_table = "student"
 
     def __unicode__(self):
-        return u'%s' % [self.id]
+        return f'{[self.id]}'
